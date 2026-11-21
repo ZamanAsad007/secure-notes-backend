@@ -24,6 +24,14 @@ const errorHandler = (err, req, res, next) => {
     message = `Invalid ${err.path}: ${err.value}`;
   }
 
+  // Handle Mongoose ValidationError
+  if (err.name === 'ValidationError') {
+    statusCode = 400;
+    message = Object.values(err.errors || {})
+      .map((e) => e.message)
+      .join(', ') || err.message;
+  }
+
   // Handle Zod validation error
   if (err.name === 'ZodError') {
     statusCode = 400;

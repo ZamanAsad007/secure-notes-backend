@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Note = require('../models/Note');
+const User = require('../models/User');
 const asyncHandler = require('../utils/asyncHandler');
 const { getPagination, formatPaginatedResponse } = require('../utils/pagination');
 
@@ -31,13 +32,23 @@ const listNotes = asyncHandler(async (req, res) => {
   const filter = {};
   if (req.user.role === 'admin') {
     if (req.query.owner) {
-      if (req.query.owner === 'me' || req.query.owner === req.user._id.toString()) {
+      const ownerQuery = req.query.owner.trim();
+      if (ownerQuery === 'me' || ownerQuery === req.user._id.toString()) {
         filter.owner = req.user._id;
+      } else if (mongoose.Types.ObjectId.isValid(ownerQuery)) {
+        filter.owner = ownerQuery;
       } else {
-        if (!mongoose.Types.ObjectId.isValid(req.query.owner)) {
+        const foundUser = await User.findOne({
+          $or: [
+            { email: ownerQuery.toLowerCase() },
+            { name: new RegExp(`^${ownerQuery}$`, 'i') }
+          ]
+        });
+        if (foundUser) {
+          filter.owner = foundUser._id;
+        } else {
           return res.status(400).json({ error: 'Invalid owner ID format' });
         }
-        filter.owner = req.query.owner;
       }
     } else if (req.query.mine === 'true') {
       filter.owner = req.user._id;

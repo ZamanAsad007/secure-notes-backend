@@ -11,7 +11,11 @@ const { getPagination, formatPaginatedResponse } = require('../utils/pagination'
  * Get current user profile.
  */
 const getMe = asyncHandler(async (req, res) => {
-  res.status(200).json(req.user);
+  const userObj = req.user.toObject ? req.user.toObject() : req.user;
+  res.status(200).json({
+    ...userObj,
+    data: userObj
+  });
 });
 
 /**
@@ -31,19 +35,28 @@ const updateMe = asyncHandler(async (req, res) => {
 
   await req.user.save();
 
-  res.status(200).json(req.user);
+  const userObj = req.user.toObject ? req.user.toObject() : req.user;
+  res.status(200).json({
+    ...userObj,
+    data: userObj
+  });
 });
 
 /**
  * List all users (admin only).
- * Sorted by { _id: -1 }, paginated.
+ * Sorted by { _id: -1 }, paginated. Supports ?role= filter.
  */
 const listUsers = asyncHandler(async (req, res) => {
   const { page, limit, skip } = getPagination(req.query);
 
+  const filter = {};
+  if (req.query.role) {
+    filter.role = req.query.role.toLowerCase().trim();
+  }
+
   const [users, total] = await Promise.all([
-    User.find({}).sort({ _id: -1 }).skip(skip).limit(limit),
-    User.countDocuments({})
+    User.find(filter).sort({ _id: -1 }).skip(skip).limit(limit),
+    User.countDocuments(filter)
   ]);
 
   res.status(200).json(formatPaginatedResponse({
@@ -101,7 +114,11 @@ const getUserById = asyncHandler(async (req, res) => {
     return res.status(404).json({ error: 'User not found' });
   }
 
-  res.status(200).json(user);
+  const userObj = user.toObject ? user.toObject() : user;
+  res.status(200).json({
+    ...userObj,
+    data: userObj
+  });
 });
 
 /**
@@ -281,12 +298,12 @@ const getUserPosts = asyncHandler(async (req, res) => {
   const posts = rawPosts.slice(0, limit);
 
   res.status(200).json({
-    _id: id,
+    _id: doc._id,
     name: doc.name,
     posts,
     hasMore,
     data: {
-      _id: id,
+      _id: doc._id,
       name: doc.name,
       posts
     },

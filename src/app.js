@@ -11,9 +11,17 @@ app.use(helmet());
 // CORS configuration with environment allow-list
 const allowedOrigins = (process.env.CLIENT_URL || '')
   .split(',')
-  .map((s) => s.trim())
+  .map((s) => s.trim().replace(/\/+$/, ''))
   .filter(Boolean);
-allowedOrigins.push('http://localhost:5173');
+
+allowedOrigins.push(
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'http://localhost:3000',
+  'http://localhost:4173',
+  'http://127.0.0.1:5173',
+  'http://127.0.0.1:5174'
+);
 
 app.use(
   cors({
