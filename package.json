@@ -1,0 +1,49 @@
+{
+  "name": "secure-notes-backend",
+  "version": "1.0.0",
+  "description": "Secure REST API backend built with Node.js, Express, and MongoDB/Mongoose featuring JWT authentication, role-based access control (User / Admin), owner-scoped notes, and optimized MongoDB aggregation pipelines.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "seed:admin": "node scripts/seedAdmin.js",
+    "seed:data": "node scripts/seedData.js",
+    "check:indexes": "node scripts/checkIndexes.js",
+    "test:api": "node scripts/testApi.js",
+    "test": "node scripts/checkIndexes.js && node scripts/testApi.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZamanAsad007/secure-notes-backend.git"
+  },
+  "keywords": [
+    "express",
+    "nodejs",
+    "mongodb",
+    "jwt",
+    "rbac",
+    "rest-api"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ZamanAsad007/secure-notes-backend/issues"
+  },
+  "homepage": "https://github.com/ZamanAsad007/secure-notes-backend#readme",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.10",
+    "express": "^4.22.3",
+    "helmet": "^8.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.12.2",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
