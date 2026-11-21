@@ -3,9 +3,9 @@
 A production-grade, API-only REST backend service built with Node.js, Express, and MongoDB/Mongoose. Features JWT authentication, role-based access control (RBAC), owner-scoped notes, and optimized MongoDB aggregation pipelines with a minimal indexing strategy.
 
 - **GitHub Repository**: [https://github.com/ZamanAsad007/secure-notes-backend](https://github.com/ZamanAsad007/secure-notes-backend)
-- **Live API Endpoint**: `https://YOUR-API.onrender.com` (Render Web Service)
+- **Live API Endpoint**: [https://secure-notes-backend.onrender.com](https://secure-notes-backend.onrender.com) (Render Web Service)
 - **Frontend Repository**: [https://github.com/ZamanAsad007/secure-notes-frontend](https://github.com/ZamanAsad007/secure-notes-frontend)
-- **Live Frontend Application**: `https://YOUR-APP.vercel.app` (Vercel)
+- **Live Frontend Application**: [https://secure-notes-frontend-omega.vercel.app](https://secure-notes-frontend-omega.vercel.app) (Vercel)
 
 > **Render Free Tier Note**: Free Render web services spin down after periods of inactivity. If the service is sleeping, the first request may take 30–60 seconds to complete while the container boots up.
 
@@ -79,7 +79,7 @@ Create a `.env` file in the root directory:
 
 ```env
 PORT=5000
-CLIENT_URL=http://localhost:5173
+CLIENT_URL=https://secure-notes-frontend-omega.vercel.app,http://localhost:5173
 MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/secure_notes?retryWrites=true&w=majority
 JWT_SECRET=your_32_character_long_secret_key_here
 JWT_EXPIRES_IN=7d
@@ -129,7 +129,7 @@ npm run seed:data
 
 ### 4. Run Automated Tests
 ```bash
-# Executes both index verification and 25-step end-to-end integration test
+# Executes both index verification and 47-step end-to-end integration test
 npm test
 ```
 
